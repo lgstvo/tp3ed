@@ -17,7 +17,7 @@ class ArvoreBinaria{
 
         void insere(CelulaNo*);
         void remove(std::string);
-        int acha(std::string);
+        int procura(std::string);
         std::string procura(int);
 };
 
