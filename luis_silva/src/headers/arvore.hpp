@@ -19,6 +19,8 @@ class ArvoreBinaria{
         void remove(std::string);
         int procura(std::string);
         std::string procura(int);
+
+        CelulaNo* acharMaior(CelulaNo*);
 };
 
 #endif
