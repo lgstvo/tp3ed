@@ -6,8 +6,8 @@ class CelulaNo{
 
     private:
         std::string nome;
-        CelulaNo* filho_esquerda;
-        CelulaNo* filho_direita;
+        CelulaNo* filho_esquerdo;
+        CelulaNo* filho_direito;
 
     public:
         CelulaNo();
