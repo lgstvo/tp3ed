@@ -7,7 +7,7 @@ CelulaNo::CelulaNo(){
     this->filho_esquerdo = NULL;
     this->filho_direito = NULL;
     this->pai = NULL;
-    this->posicao;
+    this->posicao = 0;
 }
 
 CelulaNo::CelulaNo(std::string nome){
@@ -15,7 +15,7 @@ CelulaNo::CelulaNo(std::string nome){
     this->filho_esquerdo = NULL;
     this->filho_direito = NULL;
     this->pai = NULL;
-    this->posicao;
+    this->posicao = 0;
 }
 
 std::string CelulaNo::getNome(){

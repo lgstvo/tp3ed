@@ -5,9 +5,11 @@
 
 int main(){
 
-    int numero_operacoes, numero_E_D, numero_encriptado;
+    int numero_operacoes, numero_E_D, numero_encriptado, contador_encriptado;
     char letra_operacao;
     std::string palavra;
+    CelulaNo* palavra_no;
+    ArvoreBinaria Arvore;
 
     std::cin >> numero_operacoes;
 
@@ -17,18 +19,18 @@ int main(){
 
         if(letra_operacao == 'i'){
             std::cin >> palavra;
-
-            // [COMENTÁRIO] INSERE NA ARVORE
+            palavra_no = new CelulaNo(palavra);
+            Arvore.insere(palavra_no);
         }
 
         if(letra_operacao == 's'){
             std::cin >> palavra;
 
-            // [COMENTÁRIO]  REMOVE PALAVRA
+            Arvore.remove(palavra);
 
             std::cin >> palavra;
-
-            // [COMENTÁRIO]  INSERE NA ARVORE
+            palavra_no = new CelulaNo(palavra);
+            Arvore.insere(palavra_no);
 
         }
 
@@ -38,8 +40,8 @@ int main(){
             for(int i = 0; i < numero_E_D; i++){
                 std::cin >> palavra;
 
-                // [COMENTÁRIO]  caminhamento pre ordem para achar palavra
-                // [COMENTÁRIO]  numero_encriptado = ;
+                
+                numero_encriptado = Arvore.procura(Arvore.getRaiz(), palavra, 0);
                 std::cout << numero_encriptado;
                 
                 if(i != numero_E_D-1){
@@ -56,10 +58,9 @@ int main(){
 
             for(int i = 0; i < numero_E_D; i++){
                 std::cin >> numero_encriptado;
-
-                // [COMENTÁRIO]  acha palavra na casa numero_encriptado
-                // [COMENTÁRIO]  palavra = ;
-                std::cout << palavra;
+                
+                contador_encriptado = 1;
+                Arvore.procura(Arvore.getRaiz(), numero_encriptado, contador_encriptado);
 
                 if(i != numero_E_D-1){
                     std::cout << " ";
