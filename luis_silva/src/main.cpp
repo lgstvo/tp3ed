@@ -11,11 +11,7 @@ int main(){
     CelulaNo* palavra_no;
     ArvoreBinaria Arvore;
 
-    std::cin >> numero_operacoes;
-
-    while(numero_operacoes){
-
-        std::cin >> letra_operacao;
+    while(std::cin >> letra_operacao){
 
         if(letra_operacao == 'i'){
             std::cin >> palavra;
@@ -61,12 +57,11 @@ int main(){
                 
                 contador_encriptado = 1;
                 Arvore.procura(Arvore.getRaiz(), numero_encriptado, contador_encriptado);
-
-                if(i != numero_E_D-1){
+                if(i != numero_E_D-1 && i != 0){
                     std::cout << " ";
                 }
                 else{
-                    std::cout << std::endl;
+                    if(i != 0) std::cout << std::endl;
                 }
             }
         }
