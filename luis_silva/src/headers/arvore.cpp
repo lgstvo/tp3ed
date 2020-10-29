@@ -168,3 +168,10 @@ bool ArvoreBinaria::procura(CelulaNo* raiz, int index, int &contador){
     return 0;
 }
 
+void ArvoreBinaria::imprime(CelulaNo* raiz){
+    if(raiz != NULL){
+        std::cout << raiz->getNome() << std::endl;
+        imprime(raiz->getEsquerdo());
+        imprime(raiz->getDireito());
+    }
+}

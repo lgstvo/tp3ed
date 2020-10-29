@@ -4,6 +4,8 @@
 #include "headers/arvore.hpp"
 
 int main(){
+    ArvoreBinaria arvore = ArvoreBinaria();
 
+    
     return 0;
 }

@@ -20,8 +20,8 @@ class ArvoreBinaria{
         int procura(CelulaNo*, std::string, int);
         bool procura(CelulaNo*, int, int&);
         int preenche_posicao(CelulaNo*, int);
-
         CelulaNo* acharMaior(CelulaNo*);
+        void imprime(CelulaNo*);
 };
 
 #endif
