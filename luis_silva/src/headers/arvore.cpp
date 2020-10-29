@@ -71,7 +71,6 @@ void ArvoreBinaria::remove(std::string nome){
     CelulaNo* comparador_atual;
     CelulaNo* sucessor_esquerdo;
     CelulaNo* sucessor_direito;
-    bool folha, um_filho, dois_filhos;
     comparador_atual = getRaiz();
 
     while(1){
@@ -79,16 +78,12 @@ void ArvoreBinaria::remove(std::string nome){
             sucessor_esquerdo = comparador_atual->getEsquerdo();
             sucessor_direito = comparador_atual->getDireito();
 
-            folha = sucessor_esquerdo == NULL && sucessor_direito == NULL;
-            um_filho = (sucessor_esquerdo == NULL && sucessor_direito != NULL) || (sucessor_esquerdo != NULL && sucessor_direito == NULL);
-            dois_filhos = sucessor_esquerdo != NULL && sucessor_direito != NULL;
-
-            if(folha){
+            if(sucessor_esquerdo == NULL && sucessor_direito == NULL){
                 delete comparador_atual;
                 break;
             }
 
-            if(um_filho){
+            if((sucessor_esquerdo == NULL && sucessor_direito != NULL) || (sucessor_esquerdo != NULL && sucessor_direito == NULL)){
                 if(sucessor_esquerdo == NULL){
                     comparador_atual->getPai()->setDireito(sucessor_direito);
                     sucessor_direito->setPai(comparador_atual->getPai());
@@ -103,8 +98,7 @@ void ArvoreBinaria::remove(std::string nome){
                 }
             }
 
-            if(dois_filhos){
-                // MAIOR FILHO A DIREITA DA SUBARVORE DA ESQUERDA
+            if(sucessor_esquerdo != NULL && sucessor_direito != NULL){
                 sucessor_esquerdo = acharMaior(sucessor_esquerdo);
                 sucessor_direito->setPai(sucessor_esquerdo);
 
@@ -130,11 +124,33 @@ void ArvoreBinaria::remove(std::string nome){
     }
 }
 
-int ArvoreBinaria::procura(std::string nome){
+int ArvoreBinaria::procura(CelulaNo* raiz, std::string nome, int contador){
+    if(raiz != NULL){
+        if(raiz->getNome() == nome){
+            return contador;
+        }
+        else{
+            contador++;
+        }
+        
+        contador = procura(raiz->getEsquerdo(), nome, contador);
 
+        procura(raiz->getDireito(), nome, contador);
+    }
+    return contador;
 }
 
-std::string ArvoreBinaria::procura(int index){
-    
+int ArvoreBinaria::preenche_posicao(CelulaNo* raiz, int posicao){
+    if(raiz != NULL){
+        raiz->setPosicao(posicao);
+        posicao++;
+        posicao = preenche_posicao(raiz->getEsquerdo(), posicao);
+        preenche_posicao(raiz->getDireito(), posicao);
+    }
+    return posicao;
+}
+
+CelulaNo* ArvoreBinaria::procura(CelulaNo* raiz, int index, int contador){
+
 }
 
