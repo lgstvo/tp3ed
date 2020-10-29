@@ -34,7 +34,7 @@ CelulaNo* CelulaNo::getPai(){
     return this->pai;
 }
 
-CelulaNo* CelulaNo::getPosicao(){
+int CelulaNo::getPosicao(){
     return this->posicao;
 }
 

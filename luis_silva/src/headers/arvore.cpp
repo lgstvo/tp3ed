@@ -1,6 +1,7 @@
 #include "celula.hpp"
 #include "arvore.hpp"
 #include <string>
+#include <iostream>
 
 ArvoreBinaria::ArvoreBinaria(){
     CelulaNo* raiz = new CelulaNo;
@@ -132,9 +133,7 @@ int ArvoreBinaria::procura(CelulaNo* raiz, std::string nome, int contador){
         else{
             contador++;
         }
-        
         contador = procura(raiz->getEsquerdo(), nome, contador);
-
         procura(raiz->getDireito(), nome, contador);
     }
     return contador;
@@ -150,7 +149,22 @@ int ArvoreBinaria::preenche_posicao(CelulaNo* raiz, int posicao){
     return posicao;
 }
 
-CelulaNo* ArvoreBinaria::procura(CelulaNo* raiz, int index, int contador){
-
+bool ArvoreBinaria::procura(CelulaNo* raiz, int index, int &contador){
+    bool achei;
+    if(raiz != NULL){
+        if(index == contador){
+            std::cout << raiz->getNome() << std::endl;
+            contador++;
+            return 1;
+        }
+        else{
+            contador++;
+        }
+        achei = procura(raiz->getEsquerdo(), index, contador);
+        if(!achei)
+            achei = procura(raiz->getDireito(), index, contador);
+        return achei;
+    }
+    return 0;
 }
 

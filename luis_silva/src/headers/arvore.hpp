@@ -18,7 +18,7 @@ class ArvoreBinaria{
         void insere(CelulaNo*);
         void remove(std::string);
         int procura(CelulaNo*, std::string, int);
-        CelulaNo* procura(CelulaNo*, int, int);
+        bool procura(CelulaNo*, int, int&);
         int preenche_posicao(CelulaNo*, int);
 
         CelulaNo* acharMaior(CelulaNo*);
