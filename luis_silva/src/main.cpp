@@ -5,7 +5,7 @@
 
 int main(){
 
-    int numero_operacoes, numero_E_D, numero_encriptado, contador_encriptado;
+    int numero_operacoes, numero_E_D, numero_encriptado;
     char letra_operacao;
     std::string palavra;
     CelulaNo* palavra_no;
@@ -16,7 +16,11 @@ int main(){
         if(letra_operacao == 'i'){
             std::cin >> palavra;
             palavra_no = new CelulaNo(palavra);
-            Arvore.insere(palavra_no);
+            if(Arvore.getRaiz()->getNome() == ""){
+                Arvore.setRaiz(palavra_no);
+            }
+            else 
+                Arvore.insere(palavra_no);
         }
 
         if(letra_operacao == 's'){
@@ -36,17 +40,10 @@ int main(){
             for(int i = 0; i < numero_E_D; i++){
                 std::cin >> palavra;
 
+                numero_encriptado = Arvore.encriptar(palavra);
                 
-                numero_encriptado = Arvore.procura(Arvore.getRaiz(), palavra, 0);
-                std::cout << numero_encriptado;
-                
-                if(i != numero_E_D-1){
-                    std::cout << " ";
-                }
-                else{
-                    std::cout << std::endl;
-                }
             }
+            std::cout << std::endl;
         }
 
         if(letra_operacao == 'd'){
@@ -55,15 +52,9 @@ int main(){
             for(int i = 0; i < numero_E_D; i++){
                 std::cin >> numero_encriptado;
                 
-                contador_encriptado = 1;
-                Arvore.procura(Arvore.getRaiz(), numero_encriptado, contador_encriptado);
-                if(i != numero_E_D-1 && i != 0){
-                    std::cout << " ";
-                }
-                else{
-                    if(i != 0) std::cout << std::endl;
-                }
+                Arvore.decriptar(numero_encriptado);
             }
+            std::cout << std::endl;
         }
 
         numero_operacoes--;

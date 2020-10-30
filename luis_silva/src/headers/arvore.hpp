@@ -17,11 +17,15 @@ class ArvoreBinaria{
 
         void insere(CelulaNo*);
         void remove(std::string);
-        int procura(CelulaNo*, std::string, int);
-        bool procura(CelulaNo*, int, int&);
-        int preenche_posicao(CelulaNo*, int);
         CelulaNo* acharMaior(CelulaNo*);
         void imprime(CelulaNo*);
+
+        int pesquisaEncriptar(std::string, CelulaNo*, int, int*);
+        int pesquisaDecriptar(CelulaNo*, int, int*);
+
+        int encriptar(std::string);
+        void decriptar(int);
+
 };
 
 #endif

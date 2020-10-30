@@ -7,7 +7,6 @@ CelulaNo::CelulaNo(){
     this->filho_esquerdo = NULL;
     this->filho_direito = NULL;
     this->pai = NULL;
-    this->posicao = 0;
 }
 
 CelulaNo::CelulaNo(std::string nome){
@@ -15,7 +14,6 @@ CelulaNo::CelulaNo(std::string nome){
     this->filho_esquerdo = NULL;
     this->filho_direito = NULL;
     this->pai = NULL;
-    this->posicao = 0;
 }
 
 std::string CelulaNo::getNome(){
@@ -34,10 +32,6 @@ CelulaNo* CelulaNo::getPai(){
     return this->pai;
 }
 
-int CelulaNo::getPosicao(){
-    return this->posicao;
-}
-
 void CelulaNo::setNome(std::string nome){
     this->nome = nome;
 }
@@ -54,6 +48,3 @@ void CelulaNo::setPai(CelulaNo* Celula){
     this->pai = Celula;
 }
 
-void CelulaNo::setPosicao(int posicao){
-    this->posicao = posicao;
-}

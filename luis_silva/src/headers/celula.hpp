@@ -9,7 +9,6 @@ class CelulaNo{
         CelulaNo* filho_esquerdo;
         CelulaNo* filho_direito;
         CelulaNo* pai;
-        int posicao;
 
     public:
         CelulaNo();
@@ -19,9 +18,7 @@ class CelulaNo{
         CelulaNo* getEsquerdo();
         CelulaNo* getDireito();
         CelulaNo* getPai();
-        int getPosicao();
-
-        void setPosicao(int);
+        
         void setNome(std::string);
         void setEsquerdo(CelulaNo*);
         void setDireito(CelulaNo*);
