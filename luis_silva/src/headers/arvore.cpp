@@ -27,7 +27,16 @@ void ArvoreBinaria::setRaiz(CelulaNo *raiz)
 void ArvoreBinaria::insere(CelulaNo *celula)
 {
     CelulaNo *comparador_atual;
-    comparador_atual = getRaiz();
+    
+    if(getRaiz() != NULL)
+    {
+        comparador_atual = getRaiz();
+    }
+    else
+    {
+        setRaiz(celula);
+        return;
+    }
 
     while (1)
     {
@@ -60,163 +69,94 @@ void ArvoreBinaria::insere(CelulaNo *celula)
     }
 }
 
-CelulaNo *ArvoreBinaria::acharMaior(CelulaNo *starting_point)
+CelulaNo *ArvoreBinaria::acharMaior(CelulaNo* starting_point)
 {
-    CelulaNo *maior = new CelulaNo();
-    maior = starting_point;
-
-    while (1)
+    CelulaNo* mostRightChildOfLeftBranch;
+    if (starting_point->getEsquerdo() == NULL)
     {
-        if (maior->getDireito() != NULL)
+        return starting_point->getDireito();
+    }
+    else if (starting_point->getDireito() == NULL)
+    {
+        return starting_point->getEsquerdo();
+    }
+    else
+    {
+        mostRightChildOfLeftBranch = starting_point->getEsquerdo();
+        while (mostRightChildOfLeftBranch->getDireito() != NULL)
         {
-            maior = maior->getDireito();
+            mostRightChildOfLeftBranch = mostRightChildOfLeftBranch->getDireito();
         }
-        else
+        return mostRightChildOfLeftBranch;
+    }
+}
+
+
+void ArvoreBinaria::atualizarParentesco(CelulaNo* node, CelulaNo* novo_no)
+{
+    if (node == NULL)
+    {
+        return;
+    }
+    CelulaNo *parent = node->getPai();
+    if (parent == NULL)
+    {
+        setRaiz(novo_no);
+        if (novo_no != NULL)
         {
-            if (maior->getEsquerdo() != NULL)
-            {
-                maior = maior->getEsquerdo();
-            }
-            else
-            {
-                return maior;
-            }
+            novo_no->setPai(NULL);
+        }
+    }
+    else
+    {
+        if (parent->getEsquerdo() != NULL && parent->getEsquerdo()->getNome() == node->getNome())
+        {
+            parent->setEsquerdo(novo_no);
+        }
+        else if (parent->getDireito() != NULL && parent->getDireito()->getNome() == node->getNome())
+        {
+            parent->setDireito(novo_no);
         }
     }
 }
 
 void ArvoreBinaria::remove(std::string nome)
 {
-    CelulaNo *comparador_atual;
-    CelulaNo *sucessor_esquerdo = new CelulaNo();
-    CelulaNo *sucessor_direito = new CelulaNo();
-    comparador_atual = getRaiz();
-
-    while (1)
+    CelulaNo *auxNode = getRaiz();
+    while (auxNode->getNome() != nome)
     {
-        if (comparador_atual->getNome() == nome)
+        if (auxNode->getNome().compare(nome) > 0)
         {
-            sucessor_esquerdo = comparador_atual->getEsquerdo();
-            sucessor_direito = comparador_atual->getDireito();
-
-            if (sucessor_esquerdo == NULL && sucessor_direito == NULL)
-            {
-                if (comparador_atual->getPai() != NULL)
-                {
-                    if (comparador_atual->getPai()->getNome() > comparador_atual->getNome())
-                    {
-                        comparador_atual->getPai()->setEsquerdo(NULL);
-                    }
-                    else if (comparador_atual->getPai()->getNome() < comparador_atual->getNome())
-                    {
-                        comparador_atual->getPai()->setDireito(NULL);
-                    }
-                }
-                else
-                {
-                    setRaiz(NULL);
-                }
-                delete comparador_atual;
-                break;
-            }
-
-            if (sucessor_esquerdo != NULL && sucessor_direito == NULL)
-            {
-                if (comparador_atual->getPai() != NULL)
-                {
-                    sucessor_esquerdo->setPai(comparador_atual->getPai());
-
-                    if (comparador_atual->getPai()->getEsquerdo() == NULL)
-                    {
-                        comparador_atual->getPai()->setDireito(sucessor_esquerdo);
-                    }
-                    else
-                    {
-                        sucessor_esquerdo->getPai()->setEsquerdo(sucessor_esquerdo);
-                        sucessor_esquerdo->getPai()->setDireito(sucessor_direito);
-                    }
-                }
-                else
-                {
-                    setRaiz(sucessor_esquerdo);
-                    sucessor_esquerdo->setPai(comparador_atual->getPai());
-                }
-                delete comparador_atual;
-                break;
-            }
-
-            else if (sucessor_esquerdo == NULL && sucessor_direito != NULL)
-            {
-                if (comparador_atual->getPai() == NULL)
-                {
-                    setRaiz(sucessor_direito);
-                }
-                else
-                {
-                    comparador_atual->getPai()->setDireito(sucessor_direito);
-                    sucessor_direito->setPai(comparador_atual->getPai());
-                }
-                delete comparador_atual;
-                break;
-            }
-
-            if (sucessor_esquerdo != NULL && sucessor_direito != NULL)
-            {
-                if (sucessor_esquerdo->getDireito() == NULL)
-                {
-                    sucessor_esquerdo->setPai(comparador_atual->getPai());
-                    sucessor_esquerdo->setDireito(sucessor_direito);
-                    if (comparador_atual->getPai() != NULL)
-                    {
-                        sucessor_esquerdo->getPai()->setDireito(sucessor_esquerdo);
-                    }
-                    else
-                    {
-                        setRaiz(sucessor_esquerdo);
-                        sucessor_esquerdo->setPai(comparador_atual->getPai());
-                    }
-                }
-                delete comparador_atual;
-                break;
-            }
-            else
-            {
-                sucessor_esquerdo = acharMaior(sucessor_esquerdo);
-                sucessor_direito->setPai(sucessor_esquerdo);
-                if (sucessor_esquerdo->getPai()->getEsquerdo() == sucessor_esquerdo)
-                {
-                    sucessor_esquerdo->getPai()->setEsquerdo(NULL);
-                }
-                else
-                {
-                    sucessor_esquerdo->getPai()->setDireito(NULL);
-                }
-            }
-            sucessor_esquerdo->setPai(comparador_atual->getPai());
-            sucessor_esquerdo->setDireito(sucessor_direito);
-
-            if (comparador_atual->getPai() != NULL)
-            {
-                sucessor_esquerdo->getPai()->setDireito(sucessor_esquerdo);
-            }
-            else
-            {
-                setRaiz(sucessor_esquerdo);
-                sucessor_esquerdo->setPai(comparador_atual->getPai());
-            }
-            sucessor_esquerdo->setEsquerdo(comparador_atual->getEsquerdo());
-            delete comparador_atual;
-            break;
+            auxNode = auxNode->getEsquerdo();
         }
-        else if (comparador_atual->getNome() > nome)
+        else if (auxNode->getNome().compare(nome) < 0)
         {
-            comparador_atual = comparador_atual->getEsquerdo();
-        }
-        else
-        {
-            comparador_atual = comparador_atual->getDireito();
+            auxNode = auxNode->getDireito();
         }
     }
+    CelulaNo *substituteNode = acharMaior(auxNode);
+    if (substituteNode == NULL)
+    {
+        atualizarParentesco(auxNode, NULL);
+        return;
+    }
+
+    auxNode->setNome(substituteNode->getNome());
+
+    if (substituteNode == auxNode->getEsquerdo() && auxNode->getDireito() != NULL)
+    {
+        substituteNode->setDireito(auxNode->getDireito());
+    }
+
+    if (substituteNode->getEsquerdo() != NULL || substituteNode->getDireito() != NULL)
+    {
+        substituteNode->getPai()->setEsquerdo(substituteNode->getEsquerdo());
+        substituteNode->getPai()->setDireito(substituteNode->getDireito());
+        return;
+    }
+
+    atualizarParentesco(substituteNode, NULL);
+    free(substituteNode);
 }
 
 int ArvoreBinaria::pesquisaEncriptar(std::string nome_retirar, CelulaNo *no, int contador, int *achei)

@@ -25,6 +25,7 @@ class ArvoreBinaria{
 
         int encriptar(std::string);
         void decriptar(int);
+        void atualizarParentesco(CelulaNo*,CelulaNo*);
 
 };
 
