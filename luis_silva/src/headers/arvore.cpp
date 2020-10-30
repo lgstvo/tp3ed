@@ -70,8 +70,8 @@ CelulaNo* ArvoreBinaria::acharMaior(CelulaNo* starting_point){
 
 void ArvoreBinaria::remove(std::string nome){
     CelulaNo* comparador_atual;
-    CelulaNo* sucessor_esquerdo;
-    CelulaNo* sucessor_direito;
+    CelulaNo* sucessor_esquerdo = new CelulaNo();
+    CelulaNo* sucessor_direito = new CelulaNo();
     comparador_atual = getRaiz();
 
     while(1){
@@ -80,48 +80,97 @@ void ArvoreBinaria::remove(std::string nome){
             sucessor_direito = comparador_atual->getDireito();
 
             if(sucessor_esquerdo == NULL && sucessor_direito == NULL){
+                if(comparador_atual->getPai() != NULL){
+                    if(comparador_atual->getPai()->getNome() > comparador_atual->getNome()){
+                        comparador_atual->getPai()->setEsquerdo(NULL);
+                    }
+                    else if(comparador_atual->getPai()->getNome() < comparador_atual->getNome()){
+                        comparador_atual->getPai()->setDireito(NULL);
+                    }
+                }
+                else{
+                    setRaiz(NULL);
+                }
                 delete comparador_atual;
                 break;
             }
 
-            if((sucessor_esquerdo == NULL && sucessor_direito != NULL) || (sucessor_esquerdo != NULL && sucessor_direito == NULL)){
-                if(sucessor_esquerdo == NULL){
-                    comparador_atual->getPai()->setDireito(sucessor_direito);
-                    sucessor_direito->setPai(comparador_atual->getPai());
-                    delete comparador_atual;
-                    break;
+            if(sucessor_esquerdo != NULL && sucessor_direito == NULL){
+                if(sucessor_esquerdo->getPai() != NULL){
+                    sucessor_esquerdo->setPai(comparador_atual->getPai());
+
+                    if(comparador_atual->getPai()->getEsquerdo() == NULL){
+                        comparador_atual->getPai()->setDireito(sucessor_esquerdo);
+                    }
+                    else{
+                        sucessor_esquerdo->getPai()->setEsquerdo(sucessor_esquerdo);
+                        sucessor_esquerdo->getPai()->setDireito(sucessor_direito);
+                    }
                 }
                 else{
-                    comparador_atual->getPai()->setEsquerdo(sucessor_esquerdo);
-                    sucessor_esquerdo->setPai(comparador_atual->getPai());
-                    delete comparador_atual;
-                    break;
+                    setRaiz(sucessor_esquerdo);
                 }
+                delete comparador_atual;
+                break;
+            }
+
+            else if(sucessor_esquerdo == NULL && sucessor_direito != NULL){
+                if(comparador_atual->getPai() == NULL){
+                    setRaiz(sucessor_direito);
+                }
+                else{
+                    comparador_atual->getPai()->setDireito(sucessor_direito);
+                    sucessor_direito->setPai(comparador_atual->getPai());
+                }
+                delete comparador_atual;
+                break;
             }
 
             if(sucessor_esquerdo != NULL && sucessor_direito != NULL){
-                sucessor_esquerdo = acharMaior(sucessor_esquerdo);
-                sucessor_direito->setPai(sucessor_esquerdo);
-
-                if(sucessor_esquerdo->getPai()->getEsquerdo() == sucessor_esquerdo){
-                    sucessor_esquerdo->getPai()->setEsquerdo(NULL);
+                if(sucessor_esquerdo->getDireito() == NULL){
+                    sucessor_esquerdo->setPai(comparador_atual->getPai());
+                    sucessor_esquerdo->setDireito(sucessor_direito);
+                    if(sucessor_esquerdo->getPai() != NULL){
+                        sucessor_esquerdo->getPai()->setDireito(sucessor_esquerdo);
+                    }
+                    else
+                    {
+                        setRaiz(sucessor_esquerdo);
+                    }
+                    
+                }
+                delete comparador_atual;
+                break;
                 }
                 else{
-                    sucessor_esquerdo->getPai()->setDireito(NULL);
+                    sucessor_esquerdo = acharMaior(sucessor_esquerdo);
+                    sucessor_direito->setPai(sucessor_esquerdo);
+                    if(sucessor_esquerdo->getPai()->getEsquerdo() == sucessor_esquerdo){
+                        sucessor_esquerdo->getPai()->setEsquerdo(NULL);
+                    }
+                    else{
+                        sucessor_esquerdo->getPai()->setDireito(NULL);
+                    }
                 }
-
                 sucessor_esquerdo->setPai(comparador_atual->getPai());
                 sucessor_esquerdo->setDireito(sucessor_direito);
-                sucessor_esquerdo->getPai()->setDireito(sucessor_esquerdo);
-            }
 
-        }
-        else if(comparador_atual->getNome() > nome){
-            comparador_atual = comparador_atual->getEsquerdo();
-        }
-        else{
-            comparador_atual = comparador_atual->getDireito();
-        }
+                if(sucessor_esquerdo->getPai() != NULL){
+                    sucessor_esquerdo->getPai()->setDireito(sucessor_esquerdo);
+                }
+                else{
+                    setRaiz(sucessor_esquerdo);
+                }
+                sucessor_esquerdo->setEsquerdo(comparador_atual->getEsquerdo());
+                delete comparador_atual;
+                break;
+            }
+            else if(comparador_atual->getNome() > nome){
+                comparador_atual = comparador_atual->getEsquerdo();
+            }
+            else{
+                comparador_atual = comparador_atual->getDireito();
+            }
     }
 }
 
@@ -153,7 +202,7 @@ bool ArvoreBinaria::procura(CelulaNo* raiz, int index, int &contador){
     bool achei;
     if(raiz != NULL){
         if(index == contador){
-            std::cout << raiz->getNome() << std::endl;
+            std::cout << raiz->getNome();
             contador++;
             return 1;
         }

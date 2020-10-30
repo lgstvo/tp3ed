@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-Wall -Wextra
+CFLAGS=-Wall -Wextra -g
 EXEC=./tp3 # nome do executavel que sera gerado, nao troque
 TMPOUT=tp3.testresult
 
